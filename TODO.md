@@ -7,7 +7,7 @@
 - Influencer Analytics Service
     - Take mockstagram data
     - write to db
-    - read from db
+    - read from db [TODO]
 - Data Pipeline Service
     - invoke mockstagram client
     - Influencer Analytics Service to write to DB

@@ -1,6 +1,7 @@
 class CreateInfluencerAnalytics < ActiveRecord::Migration[6.1]
   def change
     create_table :influencer_analytics do |t|
+      t.bigint :influencer_id
       t.integer :follower_count
       t.integer :following_count
       t.float :follower_ratio

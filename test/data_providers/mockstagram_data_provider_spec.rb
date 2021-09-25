@@ -26,11 +26,11 @@ RSpec.describe MockstagramDataProvider, type: :data_providers do
         end
 
         it "should fail to fetch data in case of non 200 status code" do
-            expect(client.get(1000002)).to eq({})
+            expect{client.get(1000002)}.to raise_error(AppErrors::MissingAttributes)
         end
 
         it "should fail to fetch data in exception" do
-            expect(client.get(1000003)).to eq({})
+            expect{client.get(1000003)}.to raise_error(AppErrors::NetworkError)
         end
     end
 end

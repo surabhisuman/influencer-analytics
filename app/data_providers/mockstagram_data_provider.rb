@@ -12,10 +12,10 @@ class MockstagramDataProvider < InfluencerDataProvider
         if response.status == 200
             return JSON.parse(response.body)
         else
-            return {}
+            raise AppErrors::MissingAttributes.new("Couldn't fetch data from mockstagram, status code: #{response.status}")
         end
-    rescue StandardError => e
+    rescue Faraday::Error => e
         Rails.logger.error "Failed to fetch data for id: #{id}"
-        return {}
+        raise AppErrors::NetworkError.new("Couldn't fetch data from mockstagram, error: #{e.message}")
     end
 end

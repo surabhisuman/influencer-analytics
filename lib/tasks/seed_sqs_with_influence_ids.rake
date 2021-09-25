@@ -1,12 +1,23 @@
-# INFLUENCER_IDS = Array(1000000..1999999)
-INFLUENCER_IDS = Array(1..10)
+batches = [
+    Array(1000000..1100000),
+    Array(1100001..1200000),
+    Array(1200001..1300000),
+    Array(1300001..1400000),
+    Array(1400001..1500000),
+    Array(1500001..1600000),
+    Array(1600001..1700000),
+    Array(1700001..1800000),
+    Array(180001..1900000),
+    Array(1900000..1999999)
+]
+# INFLUENCER_IDS = Array(1..10)
 
 namespace :sqs do
     namespace :seed do
         desc 'Seeds sqs with a million influencer ids'
         task :million_influencer_id => :environment do
-            client = SqsClient.new("http://localhost:9324", "default")
-            INFLUENCER_IDS.each do |id|
+            client = SqsClient.new("http://localhost:4100", "default", {}, "http://localhost:4100/default")
+            Array(1000000..1005000).each do |id|
                 client.write({
                     "influencer_id": id
                 })
