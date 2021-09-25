@@ -1,0 +1,20 @@
+- SQS Client < InfluencerIdStore
+    - read from SQS
+    - write to SQS
+- MockstagramDataProvider < InfluencerDataProvider
+- Seeder
+    - rake script to seed sqs with influencer ids
+- Influencer Analytics Service
+    - Take mockstagram data
+    - write to db
+    - read from db
+- Data Pipeline Service
+    - invoke mockstagram client
+    - Influencer Analytics Service to write to DB
+- Background Job
+    - run consumer
+    - Data Pipeline Service
+    - write back to SQS
+- Controller
+    - GET /:influencer_id?start_time=?&end_time=?
+    - Influencer Analytics Service to read from DB

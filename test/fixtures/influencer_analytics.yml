@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 
+  follower_count: 1
+  following_count: 1
+  follower_ratio: 1.5
+
+two:
+  id: 
+  follower_count: 1
+  following_count: 1
+  follower_ratio: 1.5
