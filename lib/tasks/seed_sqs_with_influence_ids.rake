@@ -10,7 +10,6 @@ batches = [
     Array(180001..1900000),
     Array(1900000..1999999)
 ]
-# INFLUENCER_IDS = Array(1..10)
 
 namespace :sqs do
     namespace :seed do
@@ -22,6 +21,13 @@ namespace :sqs do
                     "influencer_id": id
                 })
             end
+            # Parallel.map(batches, in_threads: 10) do |batch|
+                # batch.each do |id|
+                #     client.write({
+                #         "influencer_id": id
+                #     })
+                # end
+            # end
         end
     end
 end

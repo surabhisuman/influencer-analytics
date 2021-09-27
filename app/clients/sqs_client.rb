@@ -14,7 +14,7 @@ class SqsClient < InfluencerIdStore
 
     def read
         @poller.poll(@options) do |messages|
-            Parallel.map(messages, in_process: 10, in_threads: 50) do |message|
+            Parallel.map(messages, in_threads: 50) do |message|
                 begin
                     yield message
                 rescue StandardError => e
