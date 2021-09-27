@@ -37,6 +37,17 @@ class InfluencerAnalyticsService
             InfluencerAnalytic.insert_all(sliced_data_points)
         end
 
+        def update_average_influencer_count(influencer_id, current_follower_count)
+            influencer_avg_data = AverageInfluencerFollower.find_by(influencer_id: influencer_id)
+            if !influencer_avg_data
+                influencer_avg_data = AverageInfluencerFollower.create(influencer_id: influencer_id, average_count: current_follower_count, no_of_entries: 1)
+            else
+                new_average = (current_follower_count * 1 + influencer_avg_data.average_count * influencer_avg_data.no_of_entries) / (influencer_avg_data.no_of_entries+ 1)
+                influencer_avg_data.update(average_count: new_average, no_of_entries: influencer_avg_data.no_of_entries + 1)
+            end
+            return influencer_avg_data
+        end
+
         def read_from_db(influencer_id, start_time_in_ms, end_time_in_ms)
             return InfluencerAnalytic.where(influencer_id: influencer_id, retrieved_at: (start_time_in_ms..end_time_in_ms))
                 .select("time_bucket(60000, retrieved_at) as time, max(follower_count) as follower_count, max(following_count) as following_count, max(follower_ratio) as follower_ratio")

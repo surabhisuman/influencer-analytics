@@ -14,6 +14,8 @@ namespace :influencer do
             Rails.logger.info("processing influencer_id: #{influencer_id}, processing again in: #{current_timestamp_in_ms - last_processed_at} ms")
 
             data_point = InfluencerAnalyticsService.fetch_from_provider(influencer_id, provider)
+            response = InfluencerAnalyticsService.update_average_influencer_count(influencer_id, data_point[:follower_count])
+            Rails.logger.info("updated average influencers", response)
             InfluencerAnalyticsService.push_to_processing_queue(publish_sqs_client, data_point)
         rescue StandardError => e
             Rails.logger.error("failed to store data point for influencer_id: #{influencer_id}, error: #{e.message}")

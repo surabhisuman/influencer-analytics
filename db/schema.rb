@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_25_181245) do
+ActiveRecord::Schema.define(version: 2021_09_27_102755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "timescaledb"
+
+  create_table "average_influencer_followers", force: :cascade do |t|
+    t.string "influencer_id"
+    t.bigint "average_count"
+    t.integer "no_of_entries"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "influencer_analytics", id: false, force: :cascade do |t|
     t.bigint "influencer_id"

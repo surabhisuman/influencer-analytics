@@ -1,0 +1,2 @@
+class AverageInfluencerFollower < ApplicationRecord
+end
