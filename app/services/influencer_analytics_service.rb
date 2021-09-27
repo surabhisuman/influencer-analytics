@@ -22,5 +22,27 @@ class InfluencerAnalyticsService
             Rails.logger.error("failed to store to db, error: #{e.message}")
             return false
         end
+
+        def push_to_processing_queue(sqs_client, data)
+            sqs_client.write(data)
+        end
+
+        def store_all_to_db(data_points)
+            sliced_data_points = data_points.map { |data_point|
+                sliced_data_point = data_point.transform_keys{|key| key.to_sym }.slice(*InfluencerAnalytic::REQUIRED_ATTRIBUTES)
+                sliced_data_point[:created_at] = Time.now
+                sliced_data_point[:updated_at] = Time.now
+                sliced_data_point
+            }
+            InfluencerAnalytic.insert_all(sliced_data_points)
+        end
+
+        def read_from_db(influencer_id, start_time_in_ms, end_time_in_ms)
+            return InfluencerAnalytic.where(influencer_id: influencer_id, retrieved_at: (start_time_in_ms..end_time_in_ms))
+                .select("time_bucket(60000, retrieved_at) as time, max(follower_count) as follower_count, max(following_count) as following_count, max(follower_ratio) as follower_ratio")
+                .group('time')
+                .order('time')
+                .map {|result| [result.time, result.follower_count, result.following_count, result.follower_ratio]}
+        end
     end
 end

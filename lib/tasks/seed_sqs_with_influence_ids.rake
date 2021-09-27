@@ -16,8 +16,8 @@ namespace :sqs do
     namespace :seed do
         desc 'Seeds sqs with a million influencer ids'
         task :million_influencer_id => :environment do
-            client = SqsClient.new("http://localhost:4100", "default", {}, "http://localhost:4100/default")
-            Array(1000000..1005000).each do |id|
+            client = SqsClient.new("http://localhost:4100", "influencer_id_store", {}, "http://localhost:4100/influencer_id_store")
+            Array(1000000..1001000).each do |id|
                 client.write({
                     "influencer_id": id
                 })

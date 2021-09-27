@@ -14,15 +14,19 @@ class SqsClient < InfluencerIdStore
 
     def read
         @poller.poll(@options) do |messages|
-            messages.map do |message|
-                Thread.new {
-                    begin
-                        yield message
-                    rescue StandardError => e
-                        Rails.logger.info "message processing failed #{e.message}"
-                    end
-                }
-            end.each(&:join)
+            Parallel.map(messages, in_process: 10, in_threads: 50) do |message|
+                begin
+                    yield message
+                rescue StandardError => e
+                    Rails.logger.error "message processing failed #{e.message}"
+                end
+            end
+        end
+    end
+
+    def read_in_batches
+        @poller.poll(@options) do |messages|
+            yield messages
         end
     end
 

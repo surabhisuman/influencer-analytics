@@ -1244,6 +1244,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.12.4-x86_64-linux)
       racc (~> 1.4)
+    parallel (1.21.0)
     pg (1.2.3)
     puma (5.5.0)
       nio4r (~> 2.0)
@@ -1325,6 +1326,7 @@ DEPENDENCIES
   byebug
   faraday
   listen (~> 3.3)
+  parallel
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 6.1.4, >= 6.1.4.1)
