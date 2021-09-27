@@ -53,7 +53,7 @@ While all 3 support timeseries based data storage and retrieval.
 Influx DB would have been the best for this use case, I chose to go with TimeScale DB
 
 Reasons:
-1. Given it's built on top of PSQL and I have familiartiy with it.
+1. Given it's built on top of PSQL and I have familiarity with it.
 2. If I had chosen InfluxDB, there would be some learning curve to understand it's query language but with my understanding with PSQL, it was easy to get started while retaining benefits of TSDB.
 3. Since I used Rails to create this project, ActiveRecord ORM works pretty well with PSQL and thus TimeScale is compatible with it.
 
@@ -65,7 +65,7 @@ My understanding for the basic flow was we have to maintain the granularity of d
 
 Here in, I started with a queue that stores influencer_id and a consumer which consumes from the queue, fetches data from Mockstagram and stores to DB. At the end of processing each influencer_id, consumer make sures that it pushes back the same influencer_id to queue for re-processing in a certain time interval.
 
-Here, I realized DB would be the bottleneck which will impact resolution in case it goes down. To decouple the behaviour, I introduced another queue which stores the data points retireved from Mockstagram and allow another consumer to do a batch insertion to reduce load on DB yet maintaing a suitable latency for data to be available.
+Here, I realized DB would be the bottleneck which will impact resolution in case it goes down. To decouple the behaviour, I introduced another queue which stores the data points retrieved from Mockstagram and allow another consumer to do a batch insertion to reduce load on DB yet maintaining a suitable latency for data to be available.
 
 Now, even if DB goes down for some reason data won't be lost and we still can retain the intended granularity.
 
